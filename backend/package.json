@@ -1,0 +1,19 @@
+{
+  "name": "Chatty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon ./backend/server.js"
+  },
+  "keywords": [
+    "chat",
+    "app"
+  ],
+  "author": "Bora Karaca",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  }
+}
