@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const { chats } = require("./dummy-data/data");
 const { connectToDB } = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
 
 connectToDB().then(() => {
   console.log("Connected to MongoDB");
@@ -10,19 +11,9 @@ connectToDB().then(() => {
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+app.use(express.json());
 
-app.get("/api/chat", (req, res) => {
-  res.send(chats);
-});
-
-app.get("/api/chat/:id", (req, res) => {
-  const { id } = req.params;
-  const chat = chats.find((chat) => chat._id === id);
-  res.send(chat);
-});
+app.use("/api/user", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 
