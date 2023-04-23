@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const { generateToken } = require("../config/generateToken");
+const UserService = require("../services/userService");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, picture } = req.body;
@@ -10,21 +11,8 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Please fill all the fields");
   }
 
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exists");
-  }
-
-  const user = await User.create({
-    name,
-    email,
-    password,
-    picture,
-  });
-
-  if (user) {
+  try {
+    const user = await UserService.registerUser(name, email, password, picture);
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -32,43 +20,25 @@ const registerUser = asyncHandler(async (req, res) => {
       picture: user.picture,
       token: generateToken(user._id),
     });
-  } else {
+  } catch (error) {
     res.status(400);
-    throw new Error("Failed to create user");
+    throw new Error(error.message);
   }
 });
 
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await UserService.authUser(email, password);
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      picture: user.picture,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(401);
-    throw new Error("Invalid email or password");
-  }
+  res.json(user);
 });
 
 const getAllUsers = asyncHandler(async (req, res) => {
-  const keyword = req.query.search
-    ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
-    : {};
+  const { search } = req.query;
+  const users = await UserService.getAllUsers(search);
 
-  const users = await User.find({ ...keyword }).select("-password");
-  res.send(users);
+  res.json(users);
 });
 
 module.exports = {
