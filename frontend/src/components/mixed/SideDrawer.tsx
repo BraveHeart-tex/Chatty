@@ -20,7 +20,6 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { GoBell, GoChevronDown, GoSearch } from "react-icons/all";
 import { useChatState } from "../../context/ChatProvider.tsx";
 import ProfileModal from "./ProfileModal.tsx";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +27,7 @@ import axios from "axios";
 import ChatLoading from "../ChatLoading.tsx";
 import { User } from "../../models/User.ts";
 import UserListItem from "../UserAvatar/UserListItem.tsx";
+import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState<string>("");
@@ -131,7 +131,7 @@ const SideDrawer = () => {
           bg="blue.400"
         >
           <Button variant="ghost" onClick={onOpen}>
-            <GoSearch />
+            <SearchIcon />
             <Text display={{ base: "none", md: "block" }} px="4">
               Search user
             </Text>
@@ -143,7 +143,7 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton p={1} fontSize="xl" m={1} color="blue.300">
-              <GoBell />
+              <BellIcon />
             </MenuButton>
             {/*<MenuList></MenuList>*/}
           </Menu>
@@ -151,7 +151,7 @@ const SideDrawer = () => {
             <MenuButton
               color="blue.300"
               as={Button}
-              rightIcon={<GoChevronDown />}
+              rightIcon={<ChevronDownIcon fontSize={"2xl"} />}
             >
               <Avatar
                 size="sm"

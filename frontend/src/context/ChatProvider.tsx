@@ -1,13 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../models/User.ts";
+import { Chats } from "../models/Chats.ts";
 
 interface ChatContextType {
   user: User | undefined;
   setUser: (user: User) => void;
   selectedChat: undefined;
   setSelectedChat: (chat: any) => void;
-  chats: any;
+  chats: Chats | undefined;
   setChats: (chats: any) => void;
 }
 

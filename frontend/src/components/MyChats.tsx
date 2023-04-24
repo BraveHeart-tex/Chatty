@@ -2,10 +2,11 @@ import { useChatState } from "../context/ChatProvider.tsx";
 import { useEffect, useState } from "react";
 import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { GoPlus } from "react-icons/all";
 import ChatLoading from "./ChatLoading.tsx";
 import { getSender } from "../config/ChatConfig.ts";
 import { User } from "../models/User.ts";
+import GroupChatModal from "./mixed/GroupChatModal.tsx";
+import { PlusSquareIcon } from "@chakra-ui/icons";
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState<User>();
@@ -64,10 +65,15 @@ const MyChats = () => {
         color="blue.400"
       >
         My Chats
-        <Button
-          display="flex"
-          rightIcon={<GoPlus style={{ height: "16px", width: "16px" }} />}
-        ></Button>
+        <GroupChatModal>
+          <Button
+            display="flex"
+            fontSize={{ base: "17px", md: "15px", lg: "17px" }}
+            rightIcon={<PlusSquareIcon />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModal>
       </Box>
       <Box
         display="flex"

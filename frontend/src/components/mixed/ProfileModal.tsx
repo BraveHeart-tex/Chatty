@@ -13,7 +13,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { IconButton } from "@chakra-ui/react";
-import { GoEye } from "react-icons/all";
+import { ViewIcon } from "@chakra-ui/icons";
 import { User } from "../../models/User.ts";
 import React from "react";
 
@@ -32,7 +32,7 @@ const ProfileModal = ({ user, children }: IProfileModalProps) => {
         <IconButton
           aria-label={`View ${user?.name}'s profile`}
           display={{ base: "flex" }}
-          icon={<GoEye />}
+          icon={<ViewIcon />}
           onClick={onOpen}
         />
       )}
