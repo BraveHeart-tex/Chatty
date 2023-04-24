@@ -8,7 +8,7 @@ import { User } from "../models/User.ts";
 import GroupChatModal from "./mixed/GroupChatModal.tsx";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }: boolean) => {
   const [loggedUser, setLoggedUser] = useState<User>();
   const { selectedChat, setSelectedChat, user, chats, setChats } =
     useChatState();
@@ -40,7 +40,7 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo") as string));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
   return (
     <Box

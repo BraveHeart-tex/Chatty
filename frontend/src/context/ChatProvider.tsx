@@ -6,7 +6,7 @@ import { Chats } from "../models/Chats.ts";
 interface ChatContextType {
   user: User | undefined;
   setUser: (user: User) => void;
-  selectedChat: undefined;
+  selectedChat: any;
   setSelectedChat: (chat: any) => void;
   chats: Chats | undefined;
   setChats: (chats: any) => void;

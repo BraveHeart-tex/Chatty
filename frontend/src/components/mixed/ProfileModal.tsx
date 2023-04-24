@@ -70,6 +70,7 @@ const ProfileModal = ({ user, children }: IProfileModalProps) => {
               <Text
                 fontSize={{ base: "20px", md: "28px" }}
                 fontFamily="Work Sans"
+                color="blue.400"
               >
                 Email: {user?.email}
               </Text>
