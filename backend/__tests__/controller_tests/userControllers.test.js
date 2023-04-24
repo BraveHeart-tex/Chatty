@@ -9,7 +9,7 @@ require("dotenv").config();
 
 jest.mock("../../services/userService"); // Mock the UserService module
 
-describe("Controller functions", () => {
+describe("UserController functions", () => {
   describe("registerUser", () => {
     it("should create a new user and return a token", async () => {
       // Mock the UserService.registerUser method to return a user object
