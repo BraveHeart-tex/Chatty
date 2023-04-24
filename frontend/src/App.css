@@ -3,10 +3,17 @@
 .App {
   min-height: 100vh;
   display: flex;
-  background: linear-gradient(
-    90deg,
-    rgba(38, 30, 172, 1) 0%,
-    rgba(83, 83, 218, 1) 35%,
-    rgba(42, 146, 167, 1) 100%
-  );
+  background: rgb(181,234,255);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(136,136,136,0.281);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
