@@ -3,6 +3,8 @@ import { Box, IconButton, Text } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { getSender, getSenderFull } from "../config/ChatConfig.ts";
 import ProfileModal from "./mixed/ProfileModal.tsx";
+import capitalizeWords from "../utils/capitalizeWords.ts";
+import UpdateGroupChatModal from "./mixed/UpdateGroupChatModal";
 
 interface ISingleChatProps {
   fetchAgain: boolean;
@@ -28,21 +30,29 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
               aria-label={`Back to chats`}
               display={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon />}
-              onClick={() => setSelectedChat("")}
+              onClick={() => setSelectedChat(undefined)}
             />
 
             {!selectedChat.isGroupChat ? (
               <>
-                {getSender(user, selectedChat.users)}
+                {
+                  <Text color="facebook.400">
+                    {getSender(user, selectedChat.users)}
+                  </Text>
+                }
                 <ProfileModal user={getSenderFull(user, selectedChat.users)} />
               </>
             ) : (
               <>
-                {selectedChat.chatName.toUpperCase()}
-                {/*TODO: <UpdateGroupChatModal*/}
-                {/*  fetchAgain={fetchAgain}*/}
-                {/*  setFetchAgain={setFetchAgain}*/}
-                {/*/>*/}
+                {
+                  <Text color="facebook.400">
+                    {capitalizeWords(selectedChat.chatName)}
+                  </Text>
+                }
+                <UpdateGroupChatModal
+                  fetchAgain={fetchAgain}
+                  setFetchAgain={setFetchAgain}
+                />
               </>
             )}
           </Text>

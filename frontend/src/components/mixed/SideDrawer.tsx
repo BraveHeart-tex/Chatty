@@ -28,6 +28,7 @@ import ChatLoading from "../ChatLoading.tsx";
 import { User } from "../../models/User.ts";
 import UserListItem from "../UserAvatar/UserListItem.tsx";
 import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
+import { Chats } from "../../models/Chats.ts";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState<string>("");
@@ -94,7 +95,7 @@ const SideDrawer = () => {
 
       const { data } = await axios.post("/api/chat", { userId }, config);
 
-      if (!chats.find((chat: unknown) => chat._id === data._id)) {
+      if (!chats?.find((chat: unknown) => chat._id === data._id)) {
         setChats((prevChats) => [data, ...prevChats]);
       }
 

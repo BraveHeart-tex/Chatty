@@ -2,14 +2,15 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../models/User.ts";
 import { Chats } from "../models/Chats.ts";
+import { SelectedChat } from "../models/SelectedChat.ts";
 
 interface ChatContextType {
   user: User | undefined;
   setUser: (user: User) => void;
-  selectedChat: any;
-  setSelectedChat: (chat: any) => void;
+  selectedChat: SelectedChat | undefined;
+  setSelectedChat: (chat: SelectedChat | undefined) => void;
   chats: Chats | undefined;
-  setChats: (chats: any) => void;
+  setChats: (chats: Chats) => void;
 }
 
 interface ChatProviderProps {
@@ -18,7 +19,7 @@ interface ChatProviderProps {
 
 const ChatContext = createContext<ChatContextType>({
   chats: undefined,
-  setChats(chats: any): void {},
+  setChats(chats: Chats): void {},
   setSelectedChat(chat: any): void {},
   setUser(user: User): void {},
   user: undefined,
@@ -27,8 +28,10 @@ const ChatContext = createContext<ChatContextType>({
 
 const ChatProvider = ({ children }: ChatProviderProps): JSX.Element => {
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [selectedChat, setSelectedChat] = useState();
-  const [chats, setChats] = useState([]);
+  const [selectedChat, setSelectedChat] = useState<SelectedChat | undefined>(
+    undefined
+  );
+  const [chats, setChats] = useState<Chats | undefined>([]);
   const navigate = useNavigate();
 
   useEffect(() => {

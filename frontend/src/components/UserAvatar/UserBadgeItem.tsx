@@ -18,7 +18,7 @@ const UserBadgeItem = ({ user, handleFunction }: IUserBadgeItemProps) => {
       m={1}
       mb={2}
       fontSize={12}
-      bg="facebook.300"
+      bg="blue.400"
       color="white"
       cursor="pointer"
       onClick={handleFunction}
