@@ -14,9 +14,9 @@ const sendMessage = async (req, res) => {
 
   try {
     const message = await MessageService.createMessage(
-      req.user._id,
       content,
-      chatId
+      chatId,
+      req.user._id
     );
     res.status(201);
     res.json(message);

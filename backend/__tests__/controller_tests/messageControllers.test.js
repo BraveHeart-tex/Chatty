@@ -28,9 +28,9 @@ describe("sendMessage", () => {
     await sendMessage(req, res);
 
     expect(MessageService.createMessage).toHaveBeenCalledWith(
-      req.user._id,
       req.body.content,
-      req.body.chatId
+      req.body.chatId,
+      req.user._id
     );
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith(expectedMessage);

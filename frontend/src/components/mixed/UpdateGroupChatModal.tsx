@@ -27,10 +27,12 @@ import UserListItem from "../UserAvatar/UserListItem.tsx";
 interface IUpdateGroupChatModalProps {
   fetchAgain: boolean;
   setFetchAgain: (fetchAgain: boolean) => void;
+  fetchMessages: () => Promise<void>;
 }
 const UpdateGroupChatModal = ({
   fetchAgain,
   setFetchAgain,
+  fetchMessages,
 }: IUpdateGroupChatModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState<string>("");
@@ -84,6 +86,7 @@ const UpdateGroupChatModal = ({
         : setSelectedChat(data);
 
       setFetchAgain(!fetchAgain);
+      fetchMessages();
       setLoading(false);
     } catch (error) {
       toast({
