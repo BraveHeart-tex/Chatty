@@ -18,19 +18,36 @@ import axios from "axios";
 import { Message } from "../models/Message.ts";
 import "./styles.css";
 import ScrollableChat from "./ScrollableChat.tsx";
+import { io, Socket } from "socket.io-client";
+import Lottie from "react-lottie";
+import animationData from "../animations/typing.json";
 
 interface ISingleChatProps {
   fetchAgain: boolean;
   setFetchAgain: (fetchAgain: boolean) => void;
 }
+
+const ENDPOINT = "http://localhost:4000";
+let socket: Socket, selectedChatCompare: any;
 const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
-  // TODO: Type this
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [newMessage, setNewMessage] = useState<string>();
+  const [socketConnected, setSocketConnected] = useState<boolean>(false);
+  const [typing, setTyping] = useState<boolean>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
 
   const { user, selectedChat, setSelectedChat } = useChatState();
   const toast = useToast();
+
+  const lottieDefaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -51,6 +68,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
 
       setMessages(data);
       setLoading(false);
+
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
         title: "Error occurred!",
@@ -64,17 +83,60 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message received", (newMessageReceived) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageReceived.chat._id
+      ) {
+        // TODO: implement notification
+      } else {
+        setMessages([...messages, newMessageReceived]);
+      }
+    });
+  });
 
   const handleType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewMessage(e.target.value);
 
-    // TODO: implement typing indicator inside the chat
+    // typing indicator inside the chat
+    if (!socketConnected) return;
+
+    if (!typing) {
+      setTyping(true);
+      socket.emit("typing", selectedChat?._id);
+    }
+
+    let lastTypingTime = new Date().getTime();
+    let timerDuration = 3000;
+
+    setTimeout(() => {
+      let now = new Date().getTime();
+      let timeDifference = now - lastTypingTime;
+
+      if (timeDifference >= timerDuration && typing) {
+        socket.emit("stop typing", selectedChat?._id);
+        setTyping(false);
+      }
+    }, timerDuration);
   };
 
   const sendMessage = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && newMessage) {
+      socket.emit("stop typing", selectedChat?._id);
       try {
         const config = {
           headers: {
@@ -91,8 +153,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
           config
         );
 
+        socket.emit("new message", data);
         setMessages((prevMessages) => [...prevMessages, data]);
-        console.log(data);
       } catch (error) {
         toast({
           title: "Error occurred!",
@@ -177,6 +239,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
               </div>
             )}
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+              {isTyping ? (
+                <div>
+                  <Lottie
+                    width={50}
+                    style={{ marginBottom: 10, marginLeft: 0 }}
+                    options={lottieDefaultOptions}
+                  />
+                </div>
+              ) : (
+                <></>
+              )}
               <Input
                 variant="filled"
                 bg="white"

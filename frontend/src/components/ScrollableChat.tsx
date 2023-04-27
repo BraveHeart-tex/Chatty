@@ -25,6 +25,8 @@ const ScrollableChat = ({ messages }: IScrollableChatProps) => {
                 label={message.sender.name}
                 placement="bottom-start"
                 hasArrow
+                bgColor="blue.400"
+                color="white"
               >
                 <Avatar
                   mt="7px"
