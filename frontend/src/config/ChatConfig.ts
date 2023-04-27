@@ -52,7 +52,6 @@ export const isSameSenderMargin = (
 
 export const isLastMessage = (
   messages: Message[],
-  message: Message,
   i: number,
   userId: string | undefined
 ) => {

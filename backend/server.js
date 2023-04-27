@@ -38,17 +38,13 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("New client connected");
-
   socket.on("setup", (userData) => {
     socket.join(userData._id);
-    console.log("User joined with id: " + userData._id);
     socket.emit("connected");
   });
 
   socket.on("join chat", (room) => {
     socket.join(room);
-    console.log("user joined room " + room);
   });
 
   socket.on("typing", (room) => socket.in(room).emit("typing"));
@@ -67,7 +63,6 @@ io.on("connection", (socket) => {
   });
 
   socket.off("setup", () => {
-    console.log("User disconnected from the socket");
     socket.leave(userData._id);
   });
 });

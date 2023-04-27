@@ -37,7 +37,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
   const [typing, setTyping] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
-  const { user, selectedChat, setSelectedChat } = useChatState();
+  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+    useChatState();
   const toast = useToast();
 
   const lottieDefaultOptions = {
@@ -102,7 +103,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
-        // TODO: implement notification
+        if (!notification?.includes(newMessageReceived)) {
+          setNotification([newMessageReceived, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
       } else {
         setMessages([...messages, newMessageReceived]);
       }

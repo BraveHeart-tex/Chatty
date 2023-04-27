@@ -12,12 +12,13 @@ import Login from "../components/auth/Login";
 import SignUp from "../components/auth/Signup";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Logo from "../components/Logo";
 
 const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
+    const user = JSON.parse(localStorage.getItem("userInfo")!);
 
     if (user) {
       navigate("/chats");
@@ -36,9 +37,7 @@ const HomePage = () => {
         borderRadius="lg"
         borderWidth="1px"
       >
-        <Text fontSize="4xl" fontFamily="Work Sans" color={"black"}>
-          💬 Chatty
-        </Text>
+        <Logo customFontSize="4xl" />
       </Box>
       <Box
         bg="white"

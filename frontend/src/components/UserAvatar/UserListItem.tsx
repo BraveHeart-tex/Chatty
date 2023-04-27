@@ -1,9 +1,10 @@
 import { User } from "../../models/User.ts";
 import { Avatar, Box, Text } from "@chakra-ui/react";
+import { MouseEventHandler } from "react";
 
 interface IUserListItemProps {
   user: User;
-  handleFunction: (userId: string) => void;
+  handleFunction: MouseEventHandler<HTMLDivElement>;
 }
 const UserListItem = ({ user, handleFunction }: IUserListItemProps) => {
   return (

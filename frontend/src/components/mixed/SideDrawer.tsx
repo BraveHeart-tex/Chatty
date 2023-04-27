@@ -28,7 +28,12 @@ import ChatLoading from "../ChatLoading.tsx";
 import { User } from "../../models/User.ts";
 import UserListItem from "../UserAvatar/UserListItem.tsx";
 import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
-import { Chats } from "../../models/Chats.ts";
+import { SingleChatModel } from "../../models/SingleChatModel";
+import { getSender } from "../../config/ChatConfig.ts";
+import { Message } from "../../models/Message.ts";
+import Logo from "../Logo.tsx";
+// @ts-ignore
+import NotificationBadge, { Effect } from "react-notification-badge";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState<string>("");
@@ -37,7 +42,14 @@ const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState<boolean>();
   const navigate = useNavigate();
 
-  const { user, setSelectedChat, chats, setChats } = useChatState();
+  const {
+    user,
+    setSelectedChat,
+    chats,
+    setChats,
+    notification,
+    setNotification,
+  } = useChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -74,6 +86,8 @@ const SideDrawer = () => {
       setLoading(false);
       toast({
         title: "Error occurred!",
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         description: error.message,
         status: "error",
         duration: 4000,
@@ -95,7 +109,7 @@ const SideDrawer = () => {
 
       const { data } = await axios.post("/api/chat", { userId }, config);
 
-      if (!chats?.find((chat: unknown) => chat._id === data._id)) {
+      if (!chats?.find((chat: SingleChatModel) => chat._id === data._id)) {
         setChats((prevChats) => [data, ...prevChats]);
       }
 
@@ -138,15 +152,39 @@ const SideDrawer = () => {
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="2xl" fontFamily="Work sans" color="facebook.400">
-          💬 Chatty
-        </Text>
+        <Logo customFontSize="2xl" />
         <div>
           <Menu>
             <MenuButton p={1} fontSize="xl" m={1} color="blue.300">
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon />
             </MenuButton>
-            {/*<MenuList></MenuList>*/}
+            <MenuList px={2}>
+              {!notification.length && "You have no notifications yet 👀"}
+              {notification.map((notificationInLoop) => (
+                <MenuItem
+                  key={notificationInLoop._id}
+                  onClick={() => {
+                    setSelectedChat(notificationInLoop.chat);
+                    setNotification(
+                      notification.filter(
+                        (noti: Message) => noti._id !== notificationInLoop._id
+                      )
+                    );
+                  }}
+                >
+                  {notificationInLoop.chat.isGroupChat
+                    ? `New message in ${notificationInLoop.chat.chatName}`
+                    : `New message from ${getSender(
+                        user,
+                        notificationInLoop.chat.users
+                      )}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton

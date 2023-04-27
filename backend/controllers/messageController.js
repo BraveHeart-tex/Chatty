@@ -30,7 +30,6 @@ const getAllMessages = async (req, res) => {
   const { chatId } = req.params;
 
   if (!chatId) {
-    console.log("ChatId is required");
     res.status(400).send("ChatId is required");
     throw new Error("ChatId is required");
   }

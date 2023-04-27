@@ -37,8 +37,6 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
 
   const { user, chats, setChats } = useChatState();
 
-  console.log(chats);
-
   const handleSearch = async (query: string) => {
     setSearch(query);
     if (!query) {
@@ -55,7 +53,6 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
       };
 
       const { data } = await axios.get(`api/user?search=${search}`, config);
-      console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {

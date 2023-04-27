@@ -1,3 +1,5 @@
+import { User } from "./User.ts";
+
 export interface Message {
   _id: string;
   sender: MessageSender;
@@ -17,7 +19,7 @@ export interface MessageChat {
   _id: string;
   chatName: string;
   isGroupChat: boolean;
-  users: string[];
+  users: User[];
   groupAdmin: string;
   createdAt: string;
   updatedAt: string;

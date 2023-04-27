@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../models/User.ts";
 import { Chats } from "../models/Chats.ts";
 import { SelectedChat } from "../models/SelectedChat.ts";
+import { Message } from "../models/Message.ts";
 
 interface ChatContextType {
   user: User | undefined;
@@ -10,7 +11,9 @@ interface ChatContextType {
   selectedChat: SelectedChat | undefined;
   setSelectedChat: (chat: SelectedChat | undefined) => void;
   chats: Chats | undefined;
-  setChats: (chats: Chats) => void;
+  setChats: (chats: (prevChats) => any[]) => void;
+  notification: Message[];
+  setNotification: (notification: Message[]) => void;
 }
 
 interface ChatProviderProps {
@@ -19,11 +22,13 @@ interface ChatProviderProps {
 
 const ChatContext = createContext<ChatContextType>({
   chats: undefined,
-  setChats(chats: Chats): void {},
+  setChats(chats: (prevChats) => any[]): void {},
   setSelectedChat(chat: any): void {},
   setUser(user: User): void {},
   user: undefined,
   selectedChat: undefined,
+  notification: [] as Message[],
+  setNotification(notification: Message[]): void {},
 });
 
 const ChatProvider = ({ children }: ChatProviderProps): JSX.Element => {
@@ -32,10 +37,11 @@ const ChatProvider = ({ children }: ChatProviderProps): JSX.Element => {
     undefined
   );
   const [chats, setChats] = useState<Chats | undefined>([]);
+  const [notification, setNotification] = useState<Message[]>([] as Message[]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
     if (!userInfo) {
       navigate("/login");
     } else {
@@ -45,7 +51,16 @@ const ChatProvider = ({ children }: ChatProviderProps): JSX.Element => {
 
   return (
     <ChatContext.Provider
-      value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats }}
+      value={{
+        user,
+        setUser,
+        selectedChat,
+        setSelectedChat,
+        chats,
+        setChats,
+        notification,
+        setNotification,
+      }}
     >
       {children}
     </ChatContext.Provider>

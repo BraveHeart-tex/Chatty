@@ -178,10 +178,6 @@ const UpdateGroupChatModal = ({
         },
       };
 
-      console.log(
-        `CHAT ID: ${selectedChat?._id} ------ CHAT NAME: ${selectedChat?.chatName}`
-      );
-
       const { data } = await axios.put(
         `/api/chat/group/rename`,
         {
@@ -222,7 +218,6 @@ const UpdateGroupChatModal = ({
         },
       };
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-      console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {

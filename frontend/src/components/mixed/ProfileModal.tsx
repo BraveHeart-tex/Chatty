@@ -11,6 +11,8 @@ import {
   useDisclosure,
   Text,
   Box,
+  Avatar,
+  WrapItem,
 } from "@chakra-ui/react";
 import { IconButton } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
@@ -61,12 +63,18 @@ const ProfileModal = ({ user, children }: IProfileModalProps) => {
               alignItems="center"
               flexDirection="column"
             >
-              <Image
-                borderRadius="full"
-                boxSize="150px"
-                src={user?.picture}
-                alt={user?.name}
-              />
+              {user?.picture ? (
+                <Image
+                  borderRadius="full"
+                  boxSize="150px"
+                  src={user?.picture}
+                  alt={user?.name}
+                />
+              ) : (
+                <WrapItem mb={4}>
+                  <Avatar name={user?.name} size="xl" />
+                </WrapItem>
+              )}
               <Text
                 fontSize={{ base: "20px", md: "28px" }}
                 fontFamily="Work Sans"

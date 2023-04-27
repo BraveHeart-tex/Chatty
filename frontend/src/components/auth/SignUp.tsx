@@ -176,7 +176,7 @@ const SignUp = () => {
         </InputGroup>
       </FormControl>
 
-      <FormControl>
+      <FormControl color="blue.600">
         <FormLabel>Profile Picture</FormLabel>
         <Input
           type="file"
