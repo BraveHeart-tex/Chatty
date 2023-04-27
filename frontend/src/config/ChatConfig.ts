@@ -1,5 +1,5 @@
-import { User } from "../models/User.ts";
-import { Message } from "../models/Message.ts";
+import { User } from '../models/User.ts';
+import { Message } from '../models/Message.ts';
 
 export const getSender = (loggedUser: User | undefined, users: User[]) => {
   return users[0]._id === loggedUser?._id ? users[1].name : users[0].name;
@@ -47,7 +47,7 @@ export const isSameSenderMargin = (
     (i === messages.length - 1 && messages[i].sender._id !== userId)
   )
     return 0;
-  else return "auto";
+  else return 'auto';
 };
 
 export const isLastMessage = (
@@ -55,7 +55,6 @@ export const isLastMessage = (
   i: number,
   userId: string | undefined
 ) => {
-  if (userId === undefined) return false;
   return (
     i === messages.length - 1 &&
     messages[messages.length - 1].sender._id !== userId &&

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Avatar,
   Box,
@@ -19,24 +19,24 @@ import {
   Tooltip,
   useDisclosure,
   useToast,
-} from "@chakra-ui/react";
-import { useChatState } from "../../context/ChatProvider.tsx";
-import ProfileModal from "./ProfileModal.tsx";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import ChatLoading from "../ChatLoading.tsx";
-import { User } from "../../models/User.ts";
-import UserListItem from "../UserAvatar/UserListItem.tsx";
-import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
-import { SingleChatModel } from "../../models/SingleChatModel";
-import { getSender } from "../../config/ChatConfig.ts";
-import { Message } from "../../models/Message.ts";
-import Logo from "../Logo.tsx";
+} from '@chakra-ui/react';
+import { useChatState } from '../../context/ChatProvider.tsx';
+import ProfileModal from './ProfileModal.tsx';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import ChatLoading from '../ChatLoading.tsx';
+import { User } from '../../models/User.ts';
+import UserListItem from '../UserAvatar/UserListItem.tsx';
+import { BellIcon, ChevronDownIcon, SearchIcon } from '@chakra-ui/icons';
+import { SingleChatModel } from '../../models/SingleChatModel';
+import { getSender } from '../../config/ChatConfig.ts';
+import { Message } from '../../models/Message.ts';
+import Logo from '../Logo.tsx';
 // @ts-ignore
-import NotificationBadge, { Effect } from "react-notification-badge";
+import NotificationBadge, { Effect } from 'react-notification-badge';
 
 const SideDrawer = () => {
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingChat, setLoadingChat] = useState<boolean>();
@@ -54,18 +54,18 @@ const SideDrawer = () => {
   const toast = useToast();
 
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    navigate("/");
+    localStorage.removeItem('userInfo');
+    navigate('/');
   };
 
   const handleSearch = async () => {
     if (!search) {
       toast({
-        title: "Please enter something to search",
-        status: "warning",
+        title: 'Please enter something to search',
+        status: 'warning',
         duration: 4000,
         isClosable: true,
-        position: "top-left",
+        position: 'top-left',
       });
       return;
     }
@@ -85,14 +85,14 @@ const SideDrawer = () => {
     } catch (error) {
       setLoading(false);
       toast({
-        title: "Error occurred!",
+        title: 'Error occurred!',
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         description: error.message,
-        status: "error",
+        status: 'error',
         duration: 4000,
         isClosable: true,
-        position: "bottom-left",
+        position: 'bottom-left',
       });
     }
   };
@@ -107,7 +107,7 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.post("/api/chat", { userId }, config);
+      const { data } = await axios.post('/api/chat', { userId }, config);
 
       if (!chats?.find((chat: SingleChatModel) => chat._id === data._id)) {
         setChats((prevChats) => [data, ...prevChats]);
@@ -118,11 +118,11 @@ const SideDrawer = () => {
       onClose();
     } catch (error) {
       toast({
-        title: "Error fetching the chat",
-        status: "error",
+        title: 'Error fetching the chat',
+        status: 'error',
         duration: 4000,
         isClosable: true,
-        position: "bottom-left",
+        position: 'bottom-left',
       });
     }
   };
@@ -130,32 +130,32 @@ const SideDrawer = () => {
   return (
     <>
       <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        bg="#edf2f4"
-        color="blue.400"
-        w="100%"
-        p="5px 10px 5px 10px"
-        borderRadius="8px"
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+        bg='#edf2f4'
+        color='blue.400'
+        w='100%'
+        p='5px 10px 5px 10px'
+        borderRadius='8px'
       >
         <Tooltip
-          label="Search users to chat 😎"
+          label='Search users to chat 😎'
           hasArrow
-          placement="bottom"
-          bg="blue.400"
+          placement='bottom'
+          bg='blue.400'
         >
-          <Button variant="ghost" onClick={onOpen}>
+          <Button variant='ghost' onClick={onOpen}>
             <SearchIcon />
-            <Text display={{ base: "none", md: "block" }} px="4">
+            <Text display={{ base: 'none', md: 'block' }} px='4'>
               Search user
             </Text>
           </Button>
         </Tooltip>
-        <Logo customFontSize="2xl" />
+        <Logo customFontSize='2xl' />
         <div>
           <Menu>
-            <MenuButton p={1} fontSize="xl" m={1} color="blue.300">
+            <MenuButton p={1} fontSize='xl' m={1} color='blue.300'>
               <NotificationBadge
                 count={notification.length}
                 effect={Effect.SCALE}
@@ -163,7 +163,7 @@ const SideDrawer = () => {
               <BellIcon />
             </MenuButton>
             <MenuList px={2}>
-              {!notification.length && "You have no notifications yet 👀"}
+              {!notification.length && 'You have no notifications yet 👀'}
               {notification.map((notificationInLoop) => (
                 <MenuItem
                   key={notificationInLoop._id}
@@ -188,13 +188,13 @@ const SideDrawer = () => {
           </Menu>
           <Menu>
             <MenuButton
-              color="blue.300"
+              color='blue.300'
               as={Button}
-              rightIcon={<ChevronDownIcon fontSize={"2xl"} />}
+              rightIcon={<ChevronDownIcon fontSize={'2xl'} />}
             >
               <Avatar
-                size="sm"
-                cursor="pointer"
+                size='sm'
+                cursor='pointer'
                 name={user?.name}
                 src={user?.picture}
               />
@@ -210,23 +210,23 @@ const SideDrawer = () => {
         </div>
       </Box>
 
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+      <Drawer placement='left' onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent color="blue.400">
-          <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
+        <DrawerContent color='blue.400'>
+          <DrawerHeader borderBottomWidth='1px'>Search Users</DrawerHeader>
           <DrawerBody>
-            <Box display="flex" pb={2}>
+            <Box display='flex' pb={2}>
               <Input
-                placeholder="Search by name or email"
+                placeholder='Search by name or email'
                 mr={2}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <Button
                 onClick={handleSearch}
-                bgColor="blue.400"
-                color="white"
-                _hover={{ bgColor: "blue.300", color: "white" }}
+                bgColor='blue.400'
+                color='white'
+                _hover={{ bgColor: 'blue.300', color: 'white' }}
               >
                 Go
               </Button>
@@ -242,7 +242,7 @@ const SideDrawer = () => {
                 />
               ))
             )}
-            {loadingChat && <Spinner ml="auto" display="flex" />}
+            {loadingChat && <Spinner ml='auto' display='flex' />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
