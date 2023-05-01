@@ -12,10 +12,8 @@ You can checkout the live of this application on Netlify : [Live Demo](https://c
 
 <img src="https://resmim.net/cdn/2023/05/01/SNYKr1.webp" alt="Chatty single chat showcase" />
 
-<img src="https://resmim.net/cdn/2023/05/01/SNYKr1.webp" alt="Chatty single chat showcase" />
-
 <div style="padding-left: 26px;">
-<img src="https://resmim.net/cdn/2023/05/01/SNY4rq.webp" alt="Chatty single chat showcase" width="100%" height="100%"/>
+<img src="https://resmim.net/cdn/2023/05/01/SNY4rq.webp" alt="Chatty single chat showcase on mobile screen" width="100%" height="100%"/>
 </div>
 
 ## Backend
