@@ -6,6 +6,18 @@ This project is a web application built with a backend using Node.js, Express.js
 
 You can checkout the live of this application on Netlify : [Live Demo](https://chatty-realtime.netlify.app)
 
+## Showcase
+
+<img src="https://resmim.net/cdn/2023/05/01/SNYYIT.webp" alt="Chatty Desktop showcase" />
+
+<img src="https://resmim.net/cdn/2023/05/01/SNYKr1.webp" alt="Chatty single chat showcase" />
+
+<img src="https://resmim.net/cdn/2023/05/01/SNYKr1.webp" alt="Chatty single chat showcase" />
+
+<div style="padding-left: 26px;">
+<img src="https://resmim.net/cdn/2023/05/01/SNY4rq.webp" alt="Chatty single chat showcase" width="100%" height="100%"/>
+</div>
+
 ## Backend
 
 The backend of this application is built using Node.js, a popular server-side JavaScript runtime. It also utilizes Express.js, a fast and minimalist web framework, for handling HTTP requests and responses. MongoDB, a NoSQL database, is used to store and manage data for the application.
