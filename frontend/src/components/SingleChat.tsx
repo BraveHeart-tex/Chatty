@@ -27,7 +27,7 @@ interface ISingleChatProps {
   setFetchAgain: (fetchAgain: boolean) => void;
 }
 
-const ENDPOINT = 'http://localhost:4000';
+const ENDPOINT = 'https://chatty-backend-service.onrender.com';
 let socket: Socket, selectedChatCompare: any;
 const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -63,7 +63,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `/api/message/${selectedChat?._id}`,
+        `https://chatty-backend-service.onrender.com/api/message/${selectedChat?._id}`,
         config
       );
 
@@ -124,12 +124,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
       socket.emit('typing', selectedChat?._id);
     }
 
-    let lastTypingTime = new Date().getTime();
-    let timerDuration = 3000;
+    const lastTypingTime = new Date().getTime();
+    const timerDuration = 3000;
 
     setTimeout(() => {
-      let now = new Date().getTime();
-      let timeDifference = now - lastTypingTime;
+      const now = new Date().getTime();
+      const timeDifference = now - lastTypingTime;
 
       if (timeDifference >= timerDuration && typing) {
         socket.emit('stop typing', selectedChat?._id);
@@ -152,7 +152,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: ISingleChatProps) => {
         setNewMessage('');
 
         const { data } = await axios.post(
-          'api/message',
+          'https://chatty-backend-service.onrender.com/api/message',
           { content: newMessage, chatId: selectedChat?._id },
           config
         );

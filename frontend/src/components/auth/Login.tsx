@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   VStack,
   FormControl,
@@ -41,7 +42,7 @@ const Login = () => {
       };
 
       const { data } = await axios.post(
-        '/api/user/login',
+        'https://chatty-backend-service.onrender.com/api/user/login',
         { email, password },
         config
       );
@@ -59,6 +60,7 @@ const Login = () => {
     } catch (error: unknown) {
       toast({
         title: 'An error occurred',
+        // @ts-ignore
         description: error.response.data.message,
         status: 'error',
         duration: 4000,

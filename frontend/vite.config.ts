@@ -7,7 +7,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // resolve cors errors
-        target: 'http://localhost:4000',
+        target: 'https://chatty-backend-service.onrender.com',
         changeOrigin: true,
       },
     },

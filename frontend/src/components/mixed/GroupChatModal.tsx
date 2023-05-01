@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -14,13 +15,13 @@ import {
   Spinner,
   useDisclosure,
   useToast,
-} from "@chakra-ui/react";
-import { useChatState } from "../../context/ChatProvider.tsx";
-import axios from "axios";
-import { GroupChatSearchResult } from "../../models/GroupChatSearchResult.ts";
-import UserListItem from "../UserAvatar/UserListItem.tsx";
-import { User } from "../../models/User.ts";
-import UserBadgeItem from "../UserAvatar/UserBadgeItem.tsx";
+} from '@chakra-ui/react';
+import { useChatState } from '../../context/ChatProvider.tsx';
+import axios from 'axios';
+import { GroupChatSearchResult } from '../../models/GroupChatSearchResult.ts';
+import UserListItem from '../UserAvatar/UserListItem.tsx';
+import { User } from '../../models/User.ts';
+import UserBadgeItem from '../UserAvatar/UserBadgeItem.tsx';
 
 interface IGroupChatModalProps {
   children: React.ReactNode;
@@ -29,13 +30,13 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState<string | null>();
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>('');
   const [searchResult, setSearchResult] = useState<GroupChatSearchResult>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const toast = useToast();
 
-  const { user, chats, setChats } = useChatState();
+  const { user, setChats } = useChatState();
 
   const handleSearch = async (query: string) => {
     setSearch(query);
@@ -52,17 +53,20 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
         },
       };
 
-      const { data } = await axios.get(`api/user?search=${search}`, config);
+      const { data } = await axios.get(
+        `https://chatty-backend-service.onrender.com/api/user?search=${search}`,
+        config
+      );
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error occurred!",
-        description: "Failed to load the search result for your query",
-        status: "error",
+        title: 'Error occurred!',
+        description: 'Failed to load the search result for your query',
+        status: 'error',
         duration: 4000,
         isClosable: true,
-        position: "bottom-left",
+        position: 'bottom-left',
       });
     }
   };
@@ -70,11 +74,11 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUsers) {
       toast({
-        title: "Please fill in all the fields",
-        status: "warning",
+        title: 'Please fill in all the fields',
+        status: 'warning',
         duration: 4000,
         isClosable: true,
-        position: "top",
+        position: 'top',
       });
       return;
     }
@@ -87,7 +91,7 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
       };
 
       const { data } = await axios.post(
-        "/api/chat/group",
+        'https://chatty-backend-service.onrender.com/api/chat/group',
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers),
@@ -95,23 +99,25 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
         config
       );
 
+      // @ts-ignore
       setChats((prevState: never) => [...prevState, data]);
       onClose();
       toast({
-        title: "Group chat created",
-        status: "success",
+        title: 'Group chat created',
+        status: 'success',
         duration: 4000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
-    } catch (error) {
+    } catch (error: unknown) {
       toast({
-        title: "Failed to create the group chat",
+        title: 'Failed to create the group chat',
+        // @ts-ignore
         description: error.response.data,
-        status: "error",
+        status: 'error',
         duration: 4000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
     }
   };
@@ -119,11 +125,11 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
   const handleGroup = (userToAdd: User) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({
-        title: "User already added",
-        status: "warning",
+        title: 'User already added',
+        status: 'warning',
         duration: 4000,
         isClosable: true,
-        position: "top",
+        position: 'top',
       });
       return;
     }
@@ -143,31 +149,31 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent color="blue.300">
+        <ModalContent color='blue.300'>
           <ModalHeader
-            fontSize="35px"
-            fontFamily="Work sans"
-            display="flex"
-            justifyContent="center"
+            fontSize='35px'
+            fontFamily='Work sans'
+            display='flex'
+            justifyContent='center'
           >
             New Group Chat
           </ModalHeader>
-          <ModalBody display="flex" flexDirection="column" alignItems="center">
+          <ModalBody display='flex' flexDirection='column' alignItems='center'>
             <FormControl>
               <Input
-                placeholder="Group chat name"
+                placeholder='Group chat name'
                 mb={3}
                 onChange={(e) => setGroupChatName(e.target.value)}
               />
             </FormControl>
             <FormControl>
               <Input
-                placeholder="Add users to the chat"
+                placeholder='Add users to the chat'
                 mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
               />
             </FormControl>
-            <Box w="100%" display="flex" flexWrap="wrap">
+            <Box w='100%' display='flex' flexWrap='wrap'>
               {selectedUsers.map((user) => (
                 <UserBadgeItem
                   key={user._id}
@@ -195,7 +201,7 @@ const GroupChatModal = ({ children }: IGroupChatModalProps) => {
           <ModalCloseButton />
 
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleSubmit}>
+            <Button colorScheme='blue' onClick={handleSubmit}>
               Create chat
             </Button>
           </ModalFooter>

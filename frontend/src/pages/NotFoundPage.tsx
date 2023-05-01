@@ -1,13 +1,4 @@
-import {
-  Box,
-  Heading,
-  Container,
-  Text,
-  Button,
-  Stack,
-  Icon,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Heading, Container, Text, Button, Stack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 const NotFoundPage = () => {

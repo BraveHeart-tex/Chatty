@@ -1,56 +1,55 @@
 import {
   Container,
   Box,
-  Text,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-} from "@chakra-ui/react";
-import Login from "../components/auth/Login";
-import SignUp from "../components/auth/Signup";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import Logo from "../components/Logo";
+} from '@chakra-ui/react';
+import Login from '../components/auth/Login';
+import SignUp from '../components/auth/SignUp';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import Logo from '../components/Logo';
 
 const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userInfo")!);
+    const user = JSON.parse(localStorage.getItem('userInfo')!);
 
     if (user) {
-      navigate("/chats");
+      navigate('/chats');
     }
   }, [navigate]);
 
   return (
-    <Container maxW="xl" centerContent>
+    <Container maxW='xl' centerContent>
       <Box
-        display="flex"
-        justifyContent="center"
+        display='flex'
+        justifyContent='center'
         p={3}
-        bg="white"
-        w="100%"
-        m="40px 0 15px 0"
-        borderRadius="lg"
-        borderWidth="1px"
+        bg='white'
+        w='100%'
+        m='40px 0 15px 0'
+        borderRadius='lg'
+        borderWidth='1px'
       >
-        <Logo customFontSize="4xl" />
+        <Logo customFontSize='4xl' />
       </Box>
       <Box
-        bg="white"
-        w="100%"
+        bg='white'
+        w='100%'
         p={4}
-        borderRadius="lg"
-        borderWidth="1px"
-        color="black"
+        borderRadius='lg'
+        borderWidth='1px'
+        color='black'
       >
-        <Tabs variant="soft-rounded" colorScheme="blue">
-          <TabList mb="1em">
-            <Tab width="50%">Login</Tab>
-            <Tab width="50%">Sign Up</Tab>
+        <Tabs variant='soft-rounded' colorScheme='blue'>
+          <TabList mb='1em'>
+            <Tab width='50%'>Login</Tab>
+            <Tab width='50%'>Sign Up</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

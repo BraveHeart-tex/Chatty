@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useState } from 'react';
 import {
   Avatar,
@@ -79,7 +80,10 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(
+        `https://chatty-backend-service.onrender.com/api/user?search=${search}`,
+        config
+      );
       setLoading(false);
       setSearchResults(data);
     } catch (error) {
@@ -107,7 +111,11 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.post('/api/chat', { userId }, config);
+      const { data } = await axios.post(
+        'https://chatty-backend-service.onrender.com/api/chat',
+        { userId },
+        config
+      );
 
       if (!chats?.find((chat: SingleChatModel) => chat._id === data._id)) {
         setChats((prevChats) => [data, ...prevChats]);
@@ -168,6 +176,7 @@ const SideDrawer = () => {
                 <MenuItem
                   key={notificationInLoop._id}
                   onClick={() => {
+                    // @ts-ignore
                     setSelectedChat(notificationInLoop.chat);
                     setNotification(
                       notification.filter(

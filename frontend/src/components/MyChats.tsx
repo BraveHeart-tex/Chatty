@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useChatState } from '../context/ChatProvider.tsx';
 import { useEffect } from 'react';
-import { Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
+import { Box, Button, Stack, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import ChatLoading from './ChatLoading.tsx';
 import { getSender } from '../config/ChatConfig.ts';
@@ -14,16 +15,18 @@ interface IMyChatsProps {
 }
 const MyChats = ({ fetchAgain }: IMyChatsProps) => {
   const { selectedChat, setSelectedChat, user, setChats } = useChatState();
-  const toast = useToast();
   const loggedUser = JSON.parse(localStorage.getItem('userInfo') as string);
 
-  const { data: chats, isLoading } = useQuery(['myChats'], async () => {
+  const { data: chats } = useQuery(['myChats'], async () => {
     const config = {
       headers: {
         Authorization: `Bearer ${user?.token}`,
       },
     };
-    const { data } = await axios.get('/api/chat', config);
+    const { data } = await axios.get(
+      'https://chatty-backend-service.onrender.com/api/chat',
+      config
+    );
     return data;
   });
 
@@ -80,6 +83,7 @@ const MyChats = ({ fetchAgain }: IMyChatsProps) => {
           <Stack overflowY='scroll'>
             {chats.map((chat: ChatsChild) => (
               <Box
+                // @ts-ignore
                 onClick={() => setSelectedChat(chat)}
                 cursor='pointer'
                 bg={selectedChat === chat ? 'blue.300' : 'blue.200'}
